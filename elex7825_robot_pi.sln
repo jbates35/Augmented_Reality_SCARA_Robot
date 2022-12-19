@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32819.101
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{803FD0C6-D64E-4E16-9DC3-1DAEC859A3D2}") = "elex7825_robot_pi", "elex7825_robot_pi.vgdbcmake", "{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|VisualGDB = Debug|VisualGDB
+		MinSizeRel|VisualGDB = MinSizeRel|VisualGDB
+		Release|VisualGDB = Release|VisualGDB
+		RelWithDebInfo|VisualGDB = RelWithDebInfo|VisualGDB
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.Debug|VisualGDB.ActiveCfg = Debug|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.Debug|VisualGDB.Build.0 = Debug|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.MinSizeRel|VisualGDB.ActiveCfg = MinSizeRel|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.MinSizeRel|VisualGDB.Build.0 = MinSizeRel|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.Release|VisualGDB.ActiveCfg = Release|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.Release|VisualGDB.Build.0 = Release|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.RelWithDebInfo|VisualGDB.ActiveCfg = RelWithDebInfo|VisualGDB
+		{52C57485-BE0F-4BD8-8BCA-9FCD7CBB1DE8}.RelWithDebInfo|VisualGDB.Build.0 = RelWithDebInfo|VisualGDB
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2FCD3BE8-B7A6-4F4B-86EA-7C2B601ABA01}
+	EndGlobalSection
+EndGlobal
