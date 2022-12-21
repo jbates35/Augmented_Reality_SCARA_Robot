@@ -32,6 +32,12 @@ void CRobot_base::init()
 {
 }
 
+void CRobot_base::set_worldview()
+{
+	//Turn camera on and change worldview to detected charuco board
+	_worldview = true;
+	_virtualcam.enable_worldview();
+}
 
 void CRobot_base::transformPoints(std::vector<Mat>& points, Mat T)
 {

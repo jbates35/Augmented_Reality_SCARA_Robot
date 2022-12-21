@@ -136,6 +136,21 @@ public:
 	 ** @param im Main im file that will have tracker bars implemented
 	 ***/
 	void update_settings(Mat &im);
+	
+	/**
+	 ** @brief Getter for if the charuco board has been seen
+	 ***/
+	bool get_pose_seen() { return _pose_seen; }	
+	
+	/**
+	 ** @brief Getter for rvec (for rotating robot)
+	 ***/
+	cv::Vec3d get_rvec() { return rvec; }
+	
+	/**
+	 **	@brief Getter for tvec (for translating robot)
+	 ***/
+	cv::Vec3d get_tvec() { return tvec; }
 
 	
 private:

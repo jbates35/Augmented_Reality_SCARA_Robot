@@ -802,10 +802,10 @@ void CCamera::enable_worldview()
 	board = charucoboard.staticCast<aruco::Board>();
 
 	//Open camera
-	inputVideo.open(_cam_id, CAP_DSHOW);
+	inputVideo.open(_cam_id);
 
 	//Set size of camera feed
-	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, 1280);
+	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, 960);
 	inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, 720);
 
 	//File name to load camera parameters from

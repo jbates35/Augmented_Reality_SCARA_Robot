@@ -25,6 +25,7 @@ using namespace cv;		// opencv
 
 //Robot scripts
 #include "robot_lab3.h"
+#include "robot_lab4.h"
 
 void lab1()
 {
@@ -56,7 +57,15 @@ void lab3(int cam_id)
 
 void lab4(int cam_id)
 {
+	char exit_key = -1;
+	CRobot_4 robot;
+   
+	robot.create();
 
+	while (exit_key != 'q') {
+		robot.draw();
+		exit_key = waitKey(5);   
+	}
 }
 
 void lab5(int cam_id)
