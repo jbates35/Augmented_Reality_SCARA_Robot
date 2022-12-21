@@ -6,6 +6,7 @@ CCamera::CCamera()
 	testing = false;
 	
 	//Initialize variables
+	init(Size(1280,720));
 }
 
 CCamera::~CCamera()
@@ -123,6 +124,18 @@ void CCamera::createChArUcoBoard()
 
 void CCamera::calibrate_board()
 {
+	//Open camera
+	inputVideo.open(_cam_id);
+	inputVideo.set(cv::CAP_PROP_AUTO_EXPOSURE, 1);	
+	waitKey(100);
+	
+//	//Set size of camera feed
+	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, 1280);
+	inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, 720);
+
+	//File name to load camera parameters from
+	_filename = "./cam_param.xml";
+	
 	// Calib data
 	vector<vector<vector<Point2f>>> calib_corner;
 	vector<vector<int>> calib_id;
@@ -142,15 +155,18 @@ void CCamera::calibrate_board()
 	Ptr<aruco::CharucoBoard> charucoboard = aruco::CharucoBoard::create(board_size.width, board_size.height, size_aruco_square, size_aruco_mark, dictionary);
 	Ptr<aruco::Board> board = charucoboard.staticCast<aruco::Board>();
 
+	Mat im;
+	char wait_key_input;
+	
 	// Collect data from live video 
-	while (inputVideo.grab()) {
-		Mat im, draw_im;
+	while (inputVideo.read(im)) {
+		
+		Mat draw_im;
 		vector<int> corner_ids;
 		vector<vector<Point2f>> corners, rejected_corners;
 		Mat corner_Charuco, id_Charuco;
 
-		// Get image
-		inputVideo.retrieve(im);
+		// Copy image to new
 		im.copyTo(draw_im);
 
 		// First pass detect markers

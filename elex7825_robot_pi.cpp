@@ -26,13 +26,13 @@ using namespace cv;		// opencv
 void lab1()
 {
 	CCamera _virtualcam;
-	//_virtualcam.createChArUcoBoard();
+	_virtualcam.createChArUcoBoard();
 }
 
 void lab2()
 {
 	CCamera _virtualcam;
-	//_virtualcam.calibrate_board();
+	_virtualcam.calibrate_board();
 }
 
 void lab3(int cam_id)
