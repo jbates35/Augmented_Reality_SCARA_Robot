@@ -146,8 +146,8 @@ void CCamera::calibrate_board()
 	Size board_size = Size(5, 7);
 	int dictionary_id = aruco::DICT_6X6_250;
 
-	float size_aruco_square = 0.034; // MEASURE THESE
-	float size_aruco_mark = 0.017; // MEASURE THESE
+	float size_aruco_square = 0.035; // MEASURE THESE
+	float size_aruco_mark = 0.0175; // MEASURE THESE
 
 	Ptr<aruco::DetectorParameters> detectorParams = aruco::DetectorParameters::create();
 	Ptr<aruco::Dictionary> dictionary = aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionary_id));
@@ -392,6 +392,7 @@ void CCamera::detect_aruco(Mat& im, Mat& im_cpy)
 			//Estimate the markers
 			cv::aruco::estimatePoseSingleMarkers(temp_corners, 0.02, _cam_real_intrinsic, _cam_real_dist_coeff, _marker_rvec, _marker_tvec);
 
+			//Tell rest of code that we can process markers 
 			if (_marker_tvec.size() > 0) {
 				_pose_detected = true;
 				_can_detect = true;
@@ -604,6 +605,7 @@ void CCamera::calculate_extrinsic()
 
 void CCamera::calculate_real_extrinsic()
 {
+	//Initial matrices to store rpy
 	Mat _R_mat3, _R_matrix, _R_matrix_inv;
 	_R_mat3 = (Mat1f(3, 1) << (float)rvec[0], (float)rvec[1], (float)rvec[2]);
 	Rodrigues(_R_mat3, _R_matrix_inv); // converts Rotation Vector to Matrix

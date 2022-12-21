@@ -26,7 +26,7 @@ public:
 	~CCamera();
 	
 	/**
-	 ** Initializes variables in camera
+	 ** @brief Initializes variables in camera
 	 **
 	 ** @param image_size cv::Size of initial mat image
 	 ** @param cam_id camera being chosen
@@ -34,27 +34,27 @@ public:
 	void init(Size image_size, int cam_id = 0);
 	
 	/**
-	 ** Saves camera parameters to file to be loaded later
+	 ** @brief Saves camera parameters to file to be loaded later
 	 ***/	
 	bool save_camparam(string filename, Mat& cam, Mat& dist);
 	
 	/**
-	 ** Loads camera parameters from file to be used for intrinsic mat
+	 ** @brief Loads camera parameters from file to be used for intrinsic mat
 	 ***/
 	bool load_camparam(string filename, Mat& cam, Mat& dist);	
 	
 	/**
-	 ** Creates charuco board which is saved to file therefore printed later
+	 ** @brief Creates charuco board which is saved to file therefore printed later
 	 ***/	
 	void createChArUcoBoard();
 	
 	/**
-	 ** Loads camera parameters from file to be used for intrinsic mat
+	 ** @brief Loads camera parameters from file to be used for intrinsic mat
 	 ***/
 	void calibrate_board();
 	
 	/**
-	 ** Detect aruco board and its markers
+	 ** @brief Detect aruco board and its markers
 	 **
 	 ** @param im pointer to main image mat 
 	 ** @param im pointer to secondary image mat
@@ -62,7 +62,7 @@ public:
 	void detect_aruco(Mat& im, Mat& im_cpy);
 
 	/**
-	 ** Transforms a single point from a 3d coordinate to a virtual 2d image coordinate
+	 ** @brief Transforms a single point from a 3d coordinate to a virtual 2d image coordinate
 	 **
 	 ** @param pt3d_mat 3d point to be converted
 	 ** @param pt 2d converted point for image
@@ -70,7 +70,7 @@ public:
 	void transform_to_image(Mat pt3d_mat, Point2f& pt);
 	
 	/**
-	** Transforms a vector of points from a 3d coordinate to a virtual 2d image coordinate
+	** @brief Transforms a vector of points from a 3d coordinate to a virtual 2d image coordinate
 	**
 	** @param pt3d_mat 3d points to be converted
 	** @param pts2d 2d converted points for image
@@ -78,7 +78,7 @@ public:
 	void transform_to_image(std::vector<Mat> pts3d_mat, std::vector<Point2f>& pts2d);
 
 	/**
-	** Transforms a vector of points from a 3d coordinate to a real 2d image coordinate
+	** @brief Transforms a vector of points from a 3d coordinate to a real 2d image coordinate
 	**
 	** @param pt3d_mat 3d points to be converted
 	** @param pts2d 2d converted points for image
@@ -86,7 +86,7 @@ public:
 	void transform_to_image_real(Mat pt3d_mat, Point2f& pt);
 
 	/**
-	** Transforms a vector of points from a 3d coordinate to a real 2d image coordinate
+	** @brief Transforms a vector of points from a 3d coordinate to a real 2d image coordinate
 	**
 	** @param pt3d_mat 3d points to be converted
 	** @param pts2d 2d converted points for image
@@ -94,7 +94,7 @@ public:
 	void transform_to_image_real(std::vector<Mat> pts3d_mat, std::vector<Point2f>& pts2d);
 
 	/**
-	** Transforms a vector of points from a 3d coordinate to a real 2d image coordinate
+	** @brief Transforms a vector of points from a 3d coordinate to a real 2d image coordinate
 	**
 	** @param pt3d_mat 3d points to be converted
 	** @param pts2d 2d converted points for image
@@ -102,36 +102,36 @@ public:
 	void set_rvec(Point3i rvec_local);
 		
 	/**
-	 ** Enable real camera worldview if main file permits
+	 ** @brief Enable real camera worldview if main file permits
 	 ***/
 	void enable_worldview();
 	
 	/**
-	 ** Allow robot.cpp to change the lab
+	 ** @brief Allow robot.cpp to change the lab
 	 ** 
 	 ** @param lab Lab number to be set
 	 ***/
 	void set_lab(int lab);
 	
 	/**
-	 ** Return if markers have been found, so we can change trajectories
+	 ** @brief Return if markers have been found, so we can change trajectories
 	 ***/
 	bool markers_found();
 	
 	/**
-	 ** Return amount of markers found
+	 ** @brief Return amount of markers found
 	 ***/
 	int marker_count();
 	
 	/**
-	 ** Get parameters of the current marker robot end effector is at
+	 ** @brief Get parameters of the current marker robot end effector is at
 	 **
 	 ** @param curr Current ID the robot end effector has reached
 	 ***/
 	vector<int> get_pose(int curr);
 	
 	/**
-	 ** Draws tracker bars, updates all extrinsic and intrinsic matrices
+	 ** @brief Draws tracker bars, updates all extrinsic and intrinsic matrices
 	 **
 	 ** @param im Main im file that will have tracker bars implemented
 	 ***/

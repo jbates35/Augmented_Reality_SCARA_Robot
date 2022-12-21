@@ -23,6 +23,9 @@ using namespace cv;		// opencv
 
 #include "Camera.h"
 
+//Robot scripts
+#include "robot_lab3.h"
+
 void lab1()
 {
 	CCamera _virtualcam;
@@ -37,7 +40,18 @@ void lab2()
 
 void lab3(int cam_id)
 {
+	char exit_key = -1;
+	CRobot_3 robot;
 
+	//Initially create robot
+	robot.create();
+
+	//Continuously draw robot
+	while (exit_key != 'q')
+	{
+		robot.draw();
+		exit_key = waitKey(10);
+	}
 }
 
 void lab4(int cam_id)

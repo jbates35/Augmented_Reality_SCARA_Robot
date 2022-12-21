@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 2.7)
 project(elex7825_robot_pi)
 set(LIBRARIES_FROM_REFERENCES "")
-add_executable(elex7825_robot_pi elex7825_robot_pi.cpp cvui.h Camera.h Camera.cpp)
+add_executable(elex7825_robot_pi elex7825_robot_pi.cpp cvui.h Camera.h Camera.cpp robot_base.cpp robot_base.h robot_lab3.h robot_lab3.cpp)
 find_package(OpenCV REQUIRED)
 
 # Find the path to the pigpio includes.
