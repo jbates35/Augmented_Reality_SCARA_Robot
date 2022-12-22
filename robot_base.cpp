@@ -17,10 +17,6 @@ CRobot_base::CRobot_base(int lab /* = 0 */)
 	
 	//Initialize trackbar system	
 	cvui::init(CANVAS_NAME);
-
-	//Rest of init vars (these are part of reset function)	
-	init();
-
 }
 
 
@@ -28,9 +24,6 @@ CRobot_base::~CRobot_base()
 {
 }
 
-void CRobot_base::init()
-{
-}
 
 void CRobot_base::set_worldview()
 {

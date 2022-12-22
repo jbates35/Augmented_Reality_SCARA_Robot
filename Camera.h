@@ -138,9 +138,21 @@ public:
 	void update_settings(Mat &im);
 	
 	/**
-	 ** @brief Getter for if the charuco board has been seen
+	 ** @brief Getter for if the charuco board has been seen once
 	 ***/
 	bool get_pose_seen() { return _pose_seen; }	
+	
+	/**
+	 ** @brief Getter for if the charuco board is currently in sight
+	 ***/
+	bool get_valid_pose() { return _valid_pose; }
+	
+	/**
+	 ** @brief Getter for _pose_detected (i.e. if a marker has been seen)
+	 ***/
+	bool can_draw_ikine() { return _pose_detected; }
+	
+	
 	
 	/**
 	 ** @brief Getter for rvec (for rotating robot)
@@ -151,7 +163,24 @@ public:
 	 **	@brief Getter for tvec (for translating robot)
 	 ***/
 	cv::Vec3d get_tvec() { return tvec; }
-
+	
+	//Public member - easy way to get box parameters
+	struct box_pos
+	{
+		int x;
+		int y;
+		int z;
+		int roll;
+		int pitch;
+		int yaw;
+	};
+	struct box_pos box;
+	
+	/**
+	 ** @brief Getter for box
+	 ***/
+	box_pos get_box() {	return box;	}
+	
 	
 private:
 	//If true, use camera as basis for worldview, otherwise use virtual worldview
@@ -162,6 +191,9 @@ private:
 	
 	//Init vars
 	bool testing;
+	
+	//True if there's a charuco board in sight
+	bool _valid_pose;
 	
 	//Turn on if board has first been seen
 	bool _pose_seen;
@@ -208,19 +240,7 @@ private:
 	
 	//Changes camera angles from weird cv format to rpy
 	Point3i convert_to_angle(Mat rotate);
-	
-	//Easy way of keeping parameters organized for robot boxes
-	struct box_pos
-	{
-		int x;
-		int y;
-		int z;
-		int roll;
-		int pitch;
-		int yaw;
-	};
-	struct box_pos box;
-	
+		
 	// CVUI setting variables
 	int _cam_setting_f;
 	int _cam_setting_x;

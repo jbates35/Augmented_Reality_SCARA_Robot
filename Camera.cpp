@@ -71,6 +71,9 @@ void CCamera::init(Size image_size, int cam_id /* = 0 */)
 	_marker_found = { false, false, false };
 	_marker_id = { 50, 60, 70 };
 	_update_angle = false;
+	
+	//If charuco board is in camera frame
+	_valid_pose = false;
 }
 
 //Save camera parameters to file
@@ -349,13 +352,13 @@ void CCamera::detect_aruco(Mat& im, Mat& im_cpy)
 
 
 		// estimate charuco board pose
-		bool validPose = false;
+		_valid_pose = false;
 		if (_cam_real_intrinsic.total() != 0) 
 		{
-			validPose = aruco::estimatePoseCharucoBoard(charucoCorners, charucoIds, charucoboard, _cam_real_intrinsic, _cam_real_dist_coeff, rvec, tvec);
+			_valid_pose = aruco::estimatePoseCharucoBoard(charucoCorners, charucoIds, charucoboard, _cam_real_intrinsic, _cam_real_dist_coeff, rvec, tvec);
 		}
 		
-		if (validPose) {
+		if (_valid_pose) {
 			//Tell overall class that we have seen the aruco markers
 			_pose_seen = true;
 			_update_angle = true;

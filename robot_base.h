@@ -33,18 +33,10 @@ class CRobot_base
 public:
 	CRobot_base(int lab = 0);
 	~CRobot_base();
-
-	/**
-	 ** @brief Turns camera on and uses board as worldview
-	 ***/
-	void set_worldview();
 	
 protected:
 	//Virtual and real camera
 	CCamera _virtualcam;
-	
-	//Initializing variables
-	void init();
 	
 	//Default size of canvas
 	Size _image_size;
@@ -69,6 +61,9 @@ protected:
 	
 	//Concerned with whether worldview is virtual or augmented
 	bool _worldview;
+	
+	// Turns camera on and uses board as worldview
+	void set_worldview();
 	
 	//Lab number currently on
 	int _lab;
