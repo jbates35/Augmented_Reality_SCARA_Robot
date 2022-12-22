@@ -72,5 +72,6 @@ protected:
 	int _istage, _icount;
 	int _istart;
 	
-
+	//Boolean for following marker on charuco board
+	bool _follow_marker;
 };

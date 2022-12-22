@@ -78,7 +78,16 @@ void CRobot_5::create()
 	for (int i = 0; i < colors.size(); i++) 
 	{
 		_box_struct _box;
-		_box.shape = createBox(0.15, 0.05, 0.05);
+		
+		if (i == 3)
+		{
+			_box.shape = createBox(0.2, 0.05, 0.05);
+		}
+		else
+		{	
+			_box.shape = createBox(0.15, 0.05, 0.05);
+		}
+		
 		_box.color = colors[i];
 		_box.transpose = transpose_box[i];
 		_box.rotate = rotate_box[i];
@@ -158,14 +167,14 @@ void CRobot_5::update_fkine()
 	Point _setting_window;
 
 	//Create underlay for trackbars
-	_setting_window.x = _canvas_copy.size().width - 200;
-	cvui::window(_canvas_copy, _setting_window.x, _setting_window.y, 200, 600, "Robot Settings");
+	_setting_window.x = _canvas_copy.size().width - 220;
+	cvui::window(_canvas_copy, _setting_window.x, _setting_window.y, 220, 250, "Forward Kin Settings");
 
 	//First trackbar position
-	_setting_window.x += 5;
+	_setting_window.x += 15;
 	_setting_window.y += 25;
 	
-	//Create trakcbars for joint angles	
+	//Create trackbars for joint angles	
 	for (int i = 0; i < _joint.size(); i++) 
 	{
 		cvui::trackbar(_canvas_copy, _setting_window.x, _setting_window.y, 180, &_joint[i], _joint_min[i], _joint_max[i]);
@@ -173,9 +182,9 @@ void CRobot_5::update_fkine()
 
 		_setting_window.y += 45;
 	}
-
+	
 	//Creat button for animate
-	if (cvui::button(_canvas_copy, _setting_window.x, _setting_window.y, 100, 30, "Animate")) 
+	if (cvui::button(_canvas_copy, _setting_window.x-10, _setting_window.y+5, 100, 30, "Animate")) 
 	{
 		init();
 		_do_animate = 1;
@@ -183,7 +192,7 @@ void CRobot_5::update_fkine()
 	}
 
 	//Create button for resetting robot position
-	if (cvui::button(_canvas_copy, _setting_window.x + 110, _setting_window.y, 100, 30, "reset")) 
+	if (cvui::button(_canvas_copy, _setting_window.x + 100, _setting_window.y+5, 100, 30, "reset")) 
 	{
 		init();
 	}

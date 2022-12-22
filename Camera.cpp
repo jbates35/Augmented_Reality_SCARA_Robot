@@ -112,15 +112,15 @@ bool CCamera::load_camparam(string filename, Mat& cam, Mat& dist)
 void CCamera::createChArUcoBoard()
 {
 	Mat im;
-	float size_square = 0.06; // user specified
-	float size_mark = 0.03; // user specified
+	float size_square = SIZE_SQUARE_MEASURED / 1000; // user specified
+	float size_mark = SIZE_SQUARE_MEASURED / 2000; // user specified
 	Size board_size = Size(5, 7);
 	int dictionary_id = aruco::DICT_6X6_250;
 
 	Ptr<aruco::Dictionary> dictionary = aruco::getPredefinedDictionary(dictionary_id);
 	Ptr<aruco::CharucoBoard> board = aruco::CharucoBoard::create(board_size.width, board_size.height, size_square, size_mark, dictionary);
 	
-	board->draw(cv::Size(960, 1440), im, 10, 1);
+	board->draw(cv::Size(720, 1280), im, 10, 1);
 	imwrite("ChArUcoBoard.png", im);
 }
 
@@ -133,8 +133,8 @@ void CCamera::calibrate_board()
 	waitKey(100);
 	
 //	//Set size of camera feed
-	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, 1280);
-	inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, 720);
+	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH_PIXELS);
+	inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT_PIXELS);
 
 	//File name to load camera parameters from
 	_filename = "./cam_param.xml";
@@ -149,8 +149,8 @@ void CCamera::calibrate_board()
 	Size board_size = Size(5, 7);
 	int dictionary_id = aruco::DICT_6X6_250;
 
-	float size_aruco_square = 0.035; // MEASURE THESE
-	float size_aruco_mark = 0.0175; // MEASURE THESE
+	float size_aruco_square = SIZE_SQUARE_MEASURED/1000; // MEASURE THESE
+	float size_aruco_mark = SIZE_SQUARE_MEASURED/2000; // MEASURE THESE
 
 	Ptr<aruco::DetectorParameters> detectorParams = aruco::DetectorParameters::create();
 	Ptr<aruco::Dictionary> dictionary = aruco::getPredefinedDictionary(aruco::PREDEFINED_DICTIONARY_NAME(dictionary_id));
@@ -393,7 +393,7 @@ void CCamera::detect_aruco(Mat& im, Mat& im_cpy)
 			_marker_rvec.clear();
 
 			//Estimate the markers
-			cv::aruco::estimatePoseSingleMarkers(temp_corners, 0.02, _cam_real_intrinsic, _cam_real_dist_coeff, _marker_rvec, _marker_tvec);
+			cv::aruco::estimatePoseSingleMarkers(temp_corners, 0.022, _cam_real_intrinsic, _cam_real_dist_coeff, _marker_rvec, _marker_tvec);
 
 			//Tell rest of code that we can process markers 
 			if (_marker_tvec.size() > 0) {
@@ -401,7 +401,8 @@ void CCamera::detect_aruco(Mat& im, Mat& im_cpy)
 				_can_detect = true;
 				
 			}
-			else {
+			else 
+			{
 				_can_detect = false;
 			}
 
@@ -791,8 +792,8 @@ void CCamera::enable_worldview()
 	board_size = Size(5, 7);
 	dictionary_id = aruco::DICT_6X6_250;
 
-	size_aruco_square = (float)MODEL_SCALE * 35 / 1000; // Square width in mm
-	size_aruco_mark = (float)MODEL_SCALE * 35 / 2000; // Marker width in mm 
+	size_aruco_square = (float)MODEL_SCALE * SIZE_SQUARE_MEASURED / 1000; // Square width in mm
+	size_aruco_mark = (float)MODEL_SCALE * SIZE_SQUARE_MEASURED / 2000; // Marker width in mm 
 
 	//Load parameters for detection algorithm
 	detectorParams = aruco::DetectorParameters::create();
@@ -808,8 +809,8 @@ void CCamera::enable_worldview()
 	inputVideo.open(_cam_id);
 
 	//Set size of camera feed
-	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, 960);
-	inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, 720);
+	inputVideo.set(cv::CAP_PROP_FRAME_WIDTH, CAMERA_WIDTH_PIXELS);
+	inputVideo.set(cv::CAP_PROP_FRAME_HEIGHT, CAMERA_HEIGHT_PIXELS);
 
 	//File name to load camera parameters from
 	_filename = "./cam_param.xml";

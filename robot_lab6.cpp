@@ -48,6 +48,9 @@ void CRobot_6::init()
 
 	//Inverse kinematics state machine
 	_do_animate_inv = 0;
+	
+	//Follow aruco marker instead of setting trackbars
+	_follow_marker = false;
 }
 
 //Update trackbars
@@ -84,23 +87,28 @@ void CRobot_6::update_ikine()
 {
 	Point _setting_window;
 
-	_setting_window.x = _canvas_copy.size().width - 195;
-	_setting_window.y = 170;
+	_setting_window.x = _canvas_copy.size().width - 220;
+	_setting_window.y = 260;
 	
-	//Inverse kinematic parameters
-	if (_lab >= 6) 
-	{
-		//Create trackbars and label them for inverse kinematics
-		for (int i = 0; i < _joint.size(); i++) {
-			cvui::trackbar(_canvas_copy, _setting_window.x, _setting_window.y, 180, &_icoord[i], _icoord_min[i], _icoord_max[i]);
-			cvui::text(_canvas_copy, _setting_window.x + 180, _setting_window.y + 20, _ikine_names[i]);
+	cvui::window(_canvas_copy, _setting_window.x, _setting_window.y, 220, 315, "Inverse Kin Settings");
 
-			_setting_window.y += 45;
-		}
+	//First trackbar position
+	_setting_window.x += 15;
+	_setting_window.y += 25;	
+	
+	//Create trackbars and label them for inverse kinematics
+	for (int i = 0; i < _icoord.size(); i++) {
+		cvui::trackbar(_canvas_copy, _setting_window.x, _setting_window.y, 180, &_icoord[i], _icoord_min[i], _icoord_max[i]);
+		cvui::text(_canvas_copy, _setting_window.x + 180, _setting_window.y + 20, _ikine_names[i]);
+
+		_setting_window.y += 45;
 	}
 	
+	//Offset buttons to center them a bit
+	_setting_window.x += 40;
+		
 	//Button for inverse kinematics animate
-	if (cvui::button(_canvas_copy, _setting_window.x, _setting_window.y, 100, 30, "IAnimate")) {
+	if (cvui::button(_canvas_copy, _setting_window.x-10, _setting_window.y, 100, 30, "IAnimate")) {
 		_kin_select = true;
 		_do_animate_inv = 1;
 		_istage = 0;
@@ -123,16 +131,35 @@ void CRobot_6::update_ikine()
 		kin_type = "forward";
 		kin_color = RED;		
 	}
-
-	if (cvui::button(_canvas_copy, _setting_window.x + 110, _setting_window.y, 100, 30, kin_type)) {
+	
+	//Button for kinematic type	
+	_setting_window.y += 35;
+	if (cvui::button(_canvas_copy, _setting_window.x-10, _setting_window.y, 100, 30, kin_type)) {
 		_kin_select = !_kin_select;
 		check_make_positive();
 	}
 
-	_setting_window.y += 35;
-
 	//Indicating color for kinematic type
-	circle(_canvas_copy, Point2i(_setting_window.x + 160, _setting_window.y + 8), 8, kin_color, -1);	
+	circle(_canvas_copy, Point2i(_setting_window.x + 105, _setting_window.y + 15), 8, kin_color, -1);	
+	
+	
+	//Button and indicator whether marker should be followed
+	_setting_window.y += 35;
+	if (cvui::button(_canvas_copy, _setting_window.x-10, _setting_window.y, 100, 30, "Marker")) {
+		_follow_marker = !_follow_marker;
+	}
+	
+	//Marker indicator color
+	Scalar follow_marker_color;
+	if (_follow_marker) 
+	{
+		follow_marker_color = GREEN;		
+	}
+	else
+	{
+		follow_marker_color = RED;
+	}
+	circle(_canvas_copy, Point2i(_setting_window.x + 105, _setting_window.y + 15), 8, follow_marker_color, -1);
 	
 	//Inverse kinematics animation state machine
 	if (_do_animate_inv != 0) 
@@ -272,12 +299,12 @@ vector<int> CRobot_6::ikine_calculate(int x_in /* = 0 */, int y_in /* = 0 */, bo
 	if (y == 0) y = 0.000001;
 
 	//Inverse kinematic num and denoms 1 (correlates to 'true')
-	float num1 = sqrt(-66015625 + 106250 * y * y - y * y * y * y + 106250 * x * x - 2 * x * x * y * y - x * x * x * x);
-	float denom1 = -8125 + y * y + 300 * x + x * x;
+	float num1 = sqrt(90000*y*y - y*y*y*y + 90000*x*x - 2*x*x*y*y - x*x*x*x);
+	float denom1 = y*y + 300*x + x*x;
 	
 	//Inverse kinematic num and denoms 2 (correlates to 'false')
-	float num2 = sqrt(-1 * (-625 + y * y + x * x) * (-105625 + y * y + x * x));
-	float denom2 = -625 + y * y + x * x;
+	float num2 = sqrt(90000 - y*y - x*x);
+	float denom2 = sqrt(x*x+y*y);
 	
 	//Calculating inverse kinematics with atan
 	if (positive) 
@@ -352,8 +379,8 @@ void CRobot_6::fkine()
 	float q2 = PI / 180 * _joint[1];
 
 	//Calculate x and y from first two joint angles
-	x = 175 * cos(q1 + q2) + 150 * cos(q1);
-	y = 175 * sin(q1 + q2) + 150 * sin(q1);
+	x = 150 * cos(q1 + q2) + 150 * cos(q1);
+	y = 150 * sin(q1 + q2) + 150 * sin(q1);
 
 	//Store values
 	_icoord[0] = (int)round(x);
@@ -366,13 +393,14 @@ void CRobot_6::fkine()
 void CRobot_6::ikine()
 {
 	//Capture aruco marker on board, if there is one!
-	if (_virtualcam.can_draw_ikine() && _virtualcam.get_valid_pose()) 
-	{		
+	if (_virtualcam.can_draw_ikine() && _virtualcam.get_valid_pose() && _follow_marker) 
+	{	
 		//Aruco marker position
 		_icoord[0] = _virtualcam.box.x;
 		_icoord[1] = _virtualcam.box.y;
 		_icoord[2] = _virtualcam.box.z;
 		_icoord[3] = _virtualcam.box.yaw;
+	}
 	
 	//Figure out the magnitude of the x and y
 	float radius = sqrt(_icoord[0] * _icoord[0] + _icoord[1] * _icoord[1]);
@@ -388,9 +416,14 @@ void CRobot_6::ikine()
 	}
 
 	//Z
-	_joint[2] = _icoord[2] - 25;
+	_joint[2] = _icoord[2];
+	
+	//Fix Z so it doesn't go below limit.
+	if (_joint[2] < -25)
+	{
+		_joint[2] = -25;
+	}
 
 	//Theta
 	_joint[3] = _icoord[3] - _joint[0] - _joint[1];				
-	}
 }

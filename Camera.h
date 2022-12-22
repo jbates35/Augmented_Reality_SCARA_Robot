@@ -18,6 +18,12 @@ using namespace cv;
 #define REFRESH_INT 1
 #define PI 3.14159265359
 #define MODEL_SCALE 1
+#define SIZE_SQUARE_MEASURED 29.0 //Size of square measured in mm
+
+
+//Camera width and height parameters pixels
+#define CAMERA_WIDTH_PIXELS 960
+#define CAMERA_HEIGHT_PIXELS 720
 
 class CCamera
 {
