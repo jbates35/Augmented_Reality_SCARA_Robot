@@ -10,6 +10,30 @@ CRobot_6::CRobot_6()
 	//Names of inverse kinematics	
 	_ikine_names = { "X", "Y", "Z", "R" };
 	
+	//Corners for inverse animations
+	_corner_point = {
+		Point2i(MAX_ANIMATE_RANGE, MAX_ANIMATE_RANGE),
+		Point2i(-1 * MAX_ANIMATE_RANGE, MAX_ANIMATE_RANGE),
+		Point2i(-1 * MAX_ANIMATE_RANGE, -1 * MAX_ANIMATE_RANGE),
+		Point2i(MAX_ANIMATE_RANGE, -1 * MAX_ANIMATE_RANGE),
+		Point2i(MAX_ANIMATE_RANGE, MAX_ANIMATE_RANGE),
+		Point2i(-1 * MAX_ANIMATE_RANGE, MAX_ANIMATE_RANGE),
+		Point2i(-1 * MAX_ANIMATE_RANGE, -1 * MAX_ANIMATE_RANGE),
+		Point2i(MAX_ANIMATE_RANGE, -1 * MAX_ANIMATE_RANGE)
+		};
+	
+	//Increments for inverse animations
+	_corner_incs = {
+		Point2i(-5, 0),
+		Point2i(0, -5),
+		Point2i(5, 0),
+		Point2i(0, 5),
+		Point2i(-5, 0),
+		Point2i(0, -5),
+		Point2i(5, 0),
+		Point2i(0, 5)
+		};
+	
 	init();	
 }
 

@@ -28,6 +28,7 @@ using namespace cv;		// opencv
 #include "robot_lab4.h"
 #include "robot_lab5.h"
 #include "robot_lab6.h"
+#include "robot_lab7.h"
 
 void lab1()
 {
@@ -118,7 +119,25 @@ void lab6(int cam_id)
 
 void lab7(int cam_id)
 {
-
+	char exit_key = -1;
+	CRobot_7 robot;
+	
+	while (exit_key != 'q')
+	{
+		//Continuously create robot
+		robot.create();
+		
+		//Update settings
+		robot.update();
+		
+		//Draw robot
+		robot.draw();
+		
+		exit_key = waitKey(10);
+		
+		//Fkine or ikine
+		robot.calculate();
+	}
 }
 
 int main(int argc, char* argv[])
