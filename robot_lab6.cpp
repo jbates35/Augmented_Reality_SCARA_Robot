@@ -10,6 +10,7 @@ CRobot_6::CRobot_6()
 	//Names of inverse kinematics	
 	_ikine_names = { "X", "Y", "Z", "R" };
 	
+	init();	
 }
 
 
@@ -49,7 +50,7 @@ void CRobot_6::init()
 	_do_animate_inv = 0;
 }
 
-//Update robot
+//Update trackbars
 void CRobot_6::update()
 {
 	//Detect aruco to see charuco board
@@ -61,13 +62,22 @@ void CRobot_6::update()
 	//Draw trackbars and animation for fkine/ikine
 	update_fkine();	
 	update_ikine();
-	
+}
+
+
+void CRobot_6::calculate()
+{	
 	//Either find joint angles or find xyz coordinates
 	if (_kin_select)
+	{
 		ikine();		
+	}
 	else
+	{
 		fkine();
+	}
 }
+
 
 //Change trackbars for ikine
 void CRobot_6::update_ikine()

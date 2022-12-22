@@ -110,6 +110,9 @@ void lab6(int cam_id)
 		robot.draw();
 		
 		exit_key = waitKey(10);
+		
+		//Fkine or ikine
+		robot.calculate();
 	}
 }
 

@@ -14,6 +14,11 @@ public:
 	 ** @brief Change robot position, detect aruco, etc.
 	 ***/
 	void update();
+	
+	/**
+	 ** @brief Either calculate ikine or fkine
+	 ***/
+	void calculate();
 
 protected:
 	//Initializes important variables
