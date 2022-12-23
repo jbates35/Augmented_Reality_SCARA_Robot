@@ -3,7 +3,7 @@
 CRobot_5::CRobot_5()
 {
 	//Turn on camera and use charuco as worldview
-	set_worldview();
+	disable_worldview();
 	
 	//Zero-stuff frame time vec
 	for (int i = 0; i < 5; i++) frame_time_vec.push_back(0);
@@ -116,9 +116,6 @@ void CRobot_5::draw()
 	//Draw trackbars for camera
 	_virtualcam.update_settings(_canvas_copy);
 	
-	//Update all trackbars
-	cvui::update();
-	
 	//Show frame rate
 	frame_rate();
 	
@@ -156,6 +153,12 @@ void CRobot_5::draw()
 	current_view *= extrinsic(0, 0, 180);
 	std::vector<Mat> O = createCoord();
 	transformPoints(O, current_view);
+
+	//Update button enabling/disabling worldview
+	update_worldview();
+		
+	//Update all trackbars
+	cvui::update();
 	
 	//Show image
 	cv::imshow(CANVAS_NAME, _canvas_copy);

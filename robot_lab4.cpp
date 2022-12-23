@@ -3,7 +3,7 @@
 CRobot_4::CRobot_4()
 {
 	//Set camera on and use charuco board as worldview
-	set_worldview();
+	disable_worldview();
 	
 	//Initial timer
 	turn_timer = getTickCount();
@@ -52,8 +52,15 @@ void CRobot_4::create()
 
 void CRobot_4::draw()
 {
+	_canvas = cv::Mat::zeros(_image_size, CV_8UC3) + CV_RGB(60, 60, 60);
+	_canvas_copy = cv::Mat::zeros(_image_size, CV_8UC3) + CV_RGB(60, 60, 60);
+		
 	//Detect charuco and apply transformations of worldview
-	_virtualcam.detect_aruco(_canvas, _canvas_copy);
+	if (_worldview) 
+	{
+		_virtualcam.detect_aruco(_canvas, _canvas_copy);		
+	}
+
 	_virtualcam.update_settings(_canvas_copy);
 	
 	//Move robot
@@ -80,6 +87,12 @@ void CRobot_4::draw()
 			transformPoints(x.shape, T);
 	}
 	
+	//Update button enabling/disabling worldview
+	update_worldview();
+	
+	//Update all trackbars
+	cvui::update();
+	
 	//cv::imshow("7825 Canvas (test1)", _canvas);
-	cv::imshow("7825 Canvas Lab 4", _canvas_copy);	
+	cv::imshow(CANVAS_NAME, _canvas_copy);	
 }

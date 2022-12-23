@@ -113,6 +113,11 @@ public:
 	void enable_worldview();
 	
 	/**
+	 ** @brief Disable real camera worldview
+	 ***/
+	void disable_worldview();
+	
+	/**
 	 ** @brief Allow robot.cpp to change the lab
 	 ** 
 	 ** @param lab Lab number to be set

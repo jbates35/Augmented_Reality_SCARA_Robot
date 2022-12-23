@@ -58,6 +58,9 @@ void CRobot_7::init()
 	//Place in vector, reset
 	pose_counter = 0;
 	dir = 1;
+	
+	//Empty ctraj array and tell rest of code that it has been cleared
+	_ctraj_pose.clear();
 }
 
 
@@ -96,9 +99,11 @@ void CRobot_7::update()
 
 	//Ctraj if selected
 	if (_ctraj_on) {
-		if (ctraj_state == -1 && _virtualcam.markers_found()) {
+		if (ctraj_state == -1 && _virtualcam.markers_found()) {			
 			//Initiate first two marker pose
 			ctraj_state = 0;
+			_ctraj_pose.push_back(_virtualcam.get_pose(ctraj_state));
+			
 			ctraj();
 		}
 
@@ -243,21 +248,24 @@ vector<float> CRobot_7::jtraj(float s0, float sT, float v0 /* = 0 */, float vT /
 
 void CRobot_7::ctraj()
 {
-	//Store current pose into starting pos
-	_ctraj_pose_1 = _virtualcam.get_pose(ctraj_state);
-
+	//Store current pose into starting pos	
+	if (_ctraj_pose.size()>1)
+	{
+		_ctraj_pose.erase(_ctraj_pose.begin()); 
+	}
+	
 	//increment ctraj and reset if it reaches max marker count
 	ctraj_state++;
 	if (ctraj_state >= _virtualcam.marker_count())
 		ctraj_state = 0;
 
 	//Get next pose to compare with to jtraj
-	_ctraj_pose_2 = _virtualcam.get_pose(ctraj_state);
+	_ctraj_pose.push_back(_virtualcam.get_pose(ctraj_state));
 
 	//Get jtraj of these two markers (rpy,xyz)
-	ctraj_vec_x = jtraj((float)_ctraj_pose_1[3], (float)_ctraj_pose_2[3], 0, 0, STEP_COUNT);
-	ctraj_vec_y = jtraj((float)_ctraj_pose_1[4], (float)_ctraj_pose_2[4], 0, 0, STEP_COUNT);
-	ctraj_vec_z = jtraj((float)_ctraj_pose_1[5], (float)_ctraj_pose_2[5], 0, 0, STEP_COUNT);
-	ctraj_vec_yaw = jtraj((float)_ctraj_pose_1[2], (float)_ctraj_pose_2[2], 0, 0, STEP_COUNT);
+	ctraj_vec_x = jtraj((float)_ctraj_pose[0][3], (float)_ctraj_pose[1][3], 0, 0, STEP_COUNT);
+	ctraj_vec_y = jtraj((float)_ctraj_pose[0][4], (float)_ctraj_pose[1][4], 0, 0, STEP_COUNT);
+	ctraj_vec_z = jtraj((float)_ctraj_pose[0][5], (float)_ctraj_pose[1][5], 0, 0, STEP_COUNT);
+	ctraj_vec_yaw = jtraj((float)_ctraj_pose[0][2], (float)_ctraj_pose[1][2], 0, 0, STEP_COUNT);
 }
 

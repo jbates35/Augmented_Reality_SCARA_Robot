@@ -6,7 +6,7 @@ CCamera::CCamera()
 	testing = false;
 	
 	//Initialize variables
-	init(Size(1280,720));
+	init(Size(CAMERA_WIDTH_PIXELS, CAMERA_HEIGHT_PIXELS));
 }
 
 CCamera::~CCamera()
@@ -505,7 +505,7 @@ void CCamera::update_settings(Mat &im)
 	Point _camera_setting_window;
 
 	//Make tracker bar overlay window
-	cvui::window(im, _camera_setting_window.x, _camera_setting_window.y, 200, 350, "Camera Settings");
+	cvui::window(im, _camera_setting_window.x, _camera_setting_window.y, 200, 400, "Camera Settings");
 
 	//Starting position of tracker bars
 	_camera_setting_window.x = 5;
@@ -545,23 +545,13 @@ void CCamera::update_settings(Mat &im)
 	cvui::trackbar(im, _camera_setting_window.x, _camera_setting_window.y, 180, &_cam_setting_yaw, -180, 180);
 	cvui::text(im, _camera_setting_window.x + 180, _camera_setting_window.y + 20, "Y");
 
-	//Camera Track board
-	_camera_setting_window.y += 45;
-	cvui::checkbox(im, _camera_setting_window.x, _camera_setting_window.y, "Track Board", &track_board);
-
 	//Reset everything
-	_camera_setting_window.y += 45;
+	_camera_setting_window.y += 55;
 	if (cvui::button(im, _camera_setting_window.x, _camera_setting_window.y, 100, 30, "Reset"))
 	{
-		init(im.size());
+		init(cv::Size(CAMERA_WIDTH_PIXELS, CAMERA_HEIGHT_PIXELS));
 	}	
 	
-	//If lab is 3 or 4, we need cvui update here, else it'll be in robot.cpp
-	if (_lab == 3 || _lab == 4)
-	{
-		cvui::update();
-	}
-
 	// Update camera models, i.e. extrinsic and intrinsic properties
 	calculate_intrinsic();
 	calculate_extrinsic();
@@ -821,4 +811,13 @@ void CCamera::enable_worldview()
 	 
 	//We have yet to see board so make false
 	_pose_seen = false;
+}
+
+void CCamera::disable_worldview()
+{
+	//Set worldview to virtual camera w/ no charuco board
+	_worldview = false;
+	
+	//Reset position of virtual cam
+	init(Size(CAMERA_WIDTH_PIXELS, CAMERA_HEIGHT_PIXELS));
 }

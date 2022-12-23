@@ -2,7 +2,7 @@
 
 #include "robot_lab6.h"
 
-//In this lab we build a SCARA robot and use forward kinematics
+//In this lab we use trajectories to traverse the robot between markers
 
 class CRobot_7 : public CRobot_6
 {
@@ -12,6 +12,7 @@ public:
 
 	/**
 	 ** @brief Change robot position, detect aruco, etc.
+	 ** @brief Change robot posi tion, detect aruco, etc.
 	 ***/	
 	void update();
 	
@@ -41,7 +42,10 @@ private:
 	vector<float> ctraj_vec_x, ctraj_vec_y, ctraj_vec_z, ctraj_vec_yaw;
 	
 	//Used to hold current and next marker place
-	vector<int> _ctraj_pose_1,_ctraj_pose_2;
+	vector<vector<int>> _ctraj_pose;
+	
+	//Used to signify we haven't gotten any markers yet
+	bool _ctraj_begin;
 	
 	//Direction of jtraj 
 	int dir;

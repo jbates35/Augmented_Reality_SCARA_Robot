@@ -3,6 +3,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "Camera.h"
+#include "cvui.h"
 
 using namespace std;
 using namespace cv;
@@ -64,6 +65,12 @@ protected:
 	
 	// Turns camera on and uses board as worldview
 	void set_worldview();
+	
+	// Turns camera off and uses virtual camera
+	void disable_worldview();
+	
+	// Draws button for turning on/off worldview
+	void update_worldview();
 	
 	//Lab number currently on
 	int _lab;

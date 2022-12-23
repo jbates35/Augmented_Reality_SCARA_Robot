@@ -50,6 +50,9 @@ void CRobot_3::draw()
 		drawBox(_canvas, x.shape, x.color);
 	}
 
+	//Update trackbars
+	cvui::update();
+	
 	//Show final product
 	cv::imshow(CANVAS_NAME, _canvas);
 }

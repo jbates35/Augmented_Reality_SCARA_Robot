@@ -65,7 +65,6 @@
             <Value>C:\SysGCC\raspberry\share</Value>
           </Record>
         </Records>
-        <EnvironmentSetupFiles />
       </Environment>
       <BackgroundMode xsi:nil="true" />
     </CMakeCommand>

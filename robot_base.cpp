@@ -11,7 +11,7 @@ CRobot_base::CRobot_base(int lab /* = 0 */)
 
 	//////////////////////////////////////
 	// Create image and window for drawing
-	_image_size = Size(1000, 600);
+	_image_size = Size(CAMERA_WIDTH_PIXELS, CAMERA_HEIGHT_PIXELS);
 	_canvas = cv::Mat::zeros(_image_size, CV_8UC3);
 	cv::namedWindow(CANVAS_NAME);
 	
@@ -31,6 +31,57 @@ void CRobot_base::set_worldview()
 	_worldview = true;
 	_virtualcam.enable_worldview();
 }
+
+
+void CRobot_base::disable_worldview()
+{
+	//Turn camera off and change worldview to virtual cam
+	_worldview = false;
+	_virtualcam.disable_worldview();
+}
+
+
+void CRobot_base::update_worldview()
+{
+	
+	Point _setting_window;
+
+	_setting_window.x = 0;
+	_setting_window.y = _canvas_copy.size().height - 75;
+	
+	cvui::window(_canvas_copy, _setting_window.x, _setting_window.y, 200, 75, "Worldview");
+
+	//Button location
+	_setting_window.x += 5;
+	_setting_window.y += 25;	
+	
+	if (cvui::button(_canvas_copy, _setting_window.x + 15, _setting_window.y, 100, 30, "Enable camera")) {
+		//JIt's a toggle, so change worldview based on what the flag is
+		if (_worldview)
+		{
+			disable_worldview();
+		}
+		else
+		{
+			set_worldview();
+		}
+	}
+
+	//Change color of worldview indicator
+	Scalar worldview_clr;
+	if (_worldview)
+	{
+		worldview_clr = GREEN;
+	}
+	else 
+	{
+		worldview_clr = RED;
+	}
+	//Indicating color for kinematic type
+	circle(_canvas_copy, Point2i(_setting_window.x + 135, _setting_window.y + 15), 8, worldview_clr, -1);	
+
+}
+
 
 void CRobot_base::transformPoints(std::vector<Mat>& points, Mat T)
 {

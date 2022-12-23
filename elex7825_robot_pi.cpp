@@ -70,7 +70,7 @@ void lab4(int cam_id)
 	while (exit_key != 'q') 
 	{
 		robot.draw();
-		exit_key = waitKey(5);   
+		exit_key = waitKey(10);   
 	}
 }
 
