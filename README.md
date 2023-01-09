@@ -1,4 +1,4 @@
-#Augmented Reality SCARA Robot
+# Augmented Reality SCARA Robot
 
 [A short youtube video of the project.](https://www.youtube.com/watch?v=OVDXKHhm_M4)
 
