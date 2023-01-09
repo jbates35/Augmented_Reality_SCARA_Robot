@@ -1,5 +1,4 @@
-# elex7825_robot_pi
-Virtual Robotics Scara Robot
+#Augmented Reality SCARA Robot
 
 [A short youtube video of the project.](https://www.youtube.com/watch?v=OVDXKHhm_M4)
 
